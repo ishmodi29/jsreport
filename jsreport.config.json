@@ -1,0 +1,30 @@
+{
+  "store": {
+    "provider": "fs",
+    "transactions": {
+      "enabled": false
+    }
+  },
+  "autoTempCleanup": true,
+  "blobStorage": {
+    "provider": "fs"
+  },
+  "logger": {
+  "console": { "silent": true },
+  "file": { "silent": true },
+  "error": { "silent": true}
+  },
+  "trustUserCode": true,
+  "reportTimeout": 60000,
+  "workers": {
+    "numberOfWorkers": 2
+  },
+  "profiler": {
+    "defaultMode": "disabled"
+  },
+  "extensions": {
+    "express": {
+      "inputRequestLimit": "200mb"
+    }
+  }
+}
