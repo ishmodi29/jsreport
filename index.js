@@ -1,14 +1,21 @@
 require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const logsDir = path.join(__dirname, 'logs');
+const express = require('express');
+const app = express();
 
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir);
-}
+app.get('/', (req, res) => {
+  res.send('Hello from the main application');
+});
+
+const reportingApp = express();
+app.use('/reporting', reportingApp);
+
+const server = app.listen(process.env.PORT);
+
 const jsreport = require('jsreport')({
+  appPath: "/reporting",
   httpPort: process.env.PORT || 3000,
   extensions: {
+    express: { app: reportingApp, server: server },
     authentication: {
       cookieSession: {
         secret: process.env.SECRET
@@ -21,6 +28,9 @@ const jsreport = require('jsreport')({
     }
   }
 });
+
 jsreport.init().then(() => {
-  console.log('server started.')
-})
+  console.log('jsreport server started')
+}).catch((e) => {
+  console.error(e);
+});
